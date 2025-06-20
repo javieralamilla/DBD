@@ -1,0 +1,35 @@
+-- SENTENCIAS SQL 
+
+
+-- 1. AGREGAR UN JUEGO DE MESA AL CARRITO DE COMPRAS
+-- Ejemplo: Usuario ID 1 agrega el producto Catan (ID 3) con cantidad 2
+
+INSERT INTO carrito_item (id_carrito, id_producto, cantidad, precio_unitario)
+SELECT 
+    c.id_carrito,
+    3, -- ID del producto Catan
+    2, -- cantidad
+    p.precio
+FROM carrito c
+CROSS JOIN producto p
+WHERE c.id_usuario = 1 
+  AND c.estado = 'activo' 
+  AND p.id_producto = 3
+ON CONFLICT (id_carrito, id_producto) 
+DO UPDATE SET cantidad = carrito_item.cantidad + 2;
+
+-- 2. AGREGAR UNA CARTA AL CARRITO DE COMPRAS
+-- Ejemplo: Usuario ID 1 agrega cartas Magic MTG (ID 1) con cantidad 3
+INSERT INTO carrito_item (id_carrito, id_producto, cantidad, precio_unitario)
+SELECT 
+    c.id_carrito,
+    1, -- ID del producto Magic MTG
+    3, -- cantidad
+    p.precio
+FROM carrito c
+CROSS JOIN producto p
+WHERE c.id_usuario = 1 
+  AND c.estado = 'activo' 
+  AND p.id_producto = 1
+ON CONFLICT (id_carrito, id_producto) 
+DO UPDATE SET cantidad = carrito_item.cantidad + 3;
