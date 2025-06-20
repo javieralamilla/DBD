@@ -135,18 +135,6 @@ INSERT INTO metodo_de_pago (id_usuario, tipo_de_pago, detalle, titular, fecha_de
 (9, 'Tarjeta de Crédito', 'Visa ****2345', 'Miguel Torres', '09/2027'),
 (10, 'Tarjeta de Débito', 'Mastercard ****6789', 'Sofía Jiménez', '07/2025');
 
--- Insertar datos en tabla COMPRA
-INSERT INTO compra (id_usuario, id_boleta, id_metodo_pago) VALUES
-(1, 1, 1),
-(2, 2, 2),
-(3, 3, 3),
-(4, 4, 4),
-(5, 5, 5),
-(6, 6, 6),
-(7, 7, 7),
-(8, 8, 8),
-(9, 9, 9),
-(10, 10, 10);
 
 
 -- Insertar carritos activos para algunos usuarios
@@ -159,11 +147,16 @@ INSERT INTO carrito (id_usuario, estado, total_estimado) VALUES
 
 -- Insertar carritos procesados (compras pasadas)
 INSERT INTO carrito (id_usuario, estado, total_estimado) VALUES
-(1, 'procesado', 9000.00),
-(2, 'procesado', 9600.00),
-(3, 'procesado', 35000.00),
-(4, 'procesado', 56000.00),
-(5, 'procesado', 11200.00);
+(1, 'procesado', 9000.00),    -- id_carrito = 6
+(2, 'procesado', 9600.00),    -- id_carrito = 7
+(3, 'procesado', 35000.00),   -- id_carrito = 8
+(4, 'procesado', 56000.00),   -- id_carrito = 9
+(5, 'procesado', 11200.00),   -- id_carrito = 10
+(6, 'procesado', 25000.00),   -- id_carrito = 11
+(7, 'procesado', 10500.00),   -- id_carrito = 12
+(8, 'procesado', 44000.00),   -- id_carrito = 13
+(9, 'procesado', 4000.00),    -- id_carrito = 14
+(10, 'procesado', 45000.00);  -- id_carrito = 15
 
 -- Insertar items en carritos activos
 INSERT INTO carrito_item (id_carrito, id_producto, cantidad, precio_unitario) VALUES
@@ -193,7 +186,30 @@ INSERT INTO carrito_item (id_carrito, id_producto, cantidad, precio_unitario) VA
 -- Carrito procesado de Ana (id_carrito = 9)
 (9, 4, 2, 28000.00),
 -- Carrito procesado de Luis (id_carrito = 10)
-(10, 5, 4, 2800.00);
+(10, 5, 4, 2800.00),
+-- Carrito procesado de Carmen (id_carrito = 11)
+(11, 6, 1, 25000.00),
+-- Carrito procesado de Pedro (id_carrito = 12)
+(12, 7, 3, 3500.00),
+-- Carrito procesado de Elena (id_carrito = 13)
+(13, 8, 2, 22000.00),
+-- Carrito procesado de Miguel (id_carrito = 14)
+(14, 9, 1, 4000.00),
+-- Carrito procesado de Sofía (id_carrito = 15)
+(15, 10, 1, 45000.00);
+
+-- Insertar datos en tabla COMPRA
+INSERT INTO compra (id_usuario, id_boleta, id_metodo_pago, id_carrito) VALUES
+(1, 1, 1, 6),   -- Carlos - carrito procesado id 6
+(2, 2, 2, 7),   -- María - carrito procesado id 7
+(3, 3, 3, 8),   -- José - carrito procesado id 8
+(4, 4, 4, 9),   -- Ana - carrito procesado id 9
+(5, 5, 5, 10),  -- Luis - carrito procesado id 10
+(6, 6, 6, 11),  -- Carmen - carrito procesado id 11
+(7, 7, 7, 12),  -- Pedro - carrito procesado id 12
+(8, 8, 8, 13),  -- Elena - carrito procesado id 13
+(9, 9, 9, 14),  -- Miguel - carrito procesado id 14
+(10, 10, 10, 15); -- Sofía - carrito procesado id 15
 
 -- Insertar datos en tabla VALORACION
 INSERT INTO valoracion (id_usuario, id_producto, puntuacion) VALUES

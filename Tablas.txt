@@ -70,9 +70,11 @@ CREATE TABLE IF NOT EXISTS compra (
     id_usuario INTEGER NOT NULL,
     id_boleta INTEGER,
     id_metodo_pago INTEGER NOT NULL,
+    id_carrito INTEGER NOT NULL, 
     FOREIGN KEY (id_usuario) REFERENCES usuario(id_usuario),
     FOREIGN KEY (id_boleta) REFERENCES boleta(id_boleta),
-    FOREIGN KEY (id_metodo_pago) REFERENCES metodo_de_pago(id_metodo_pago)
+    FOREIGN KEY (id_metodo_pago) REFERENCES metodo_de_pago(id_metodo_pago),
+    FOREIGN KEY (id_carrito) REFERENCES carrito(id_carrito)
 );
 
 -- 9. Tabla VALORACION
