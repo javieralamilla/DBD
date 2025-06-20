@@ -1,0 +1,54 @@
+--TABLAS ENTIDADES
+
+-- 1. Tabla ROL
+CREATE TABLE IF NOT EXISTS rol (
+    id_rol SERIAL PRIMARY KEY,
+    nombre_rol VARCHAR(50) NOT NULL
+);
+
+-- 2. Tabla PERMISOS
+CREATE TABLE IF NOT EXISTS permisos (
+    id_permiso SERIAL PRIMARY KEY,
+    descripcion_permiso VARCHAR(100) NOT NULL
+);
+
+-- 3. Tabla USUARIO
+CREATE TABLE IF NOT EXISTS usuario (
+    id_usuario SERIAL PRIMARY KEY,
+    id_rol INTEGER NOT NULL,
+    nombre VARCHAR(100) NOT NULL,
+    apellido VARCHAR(100) NOT NULL,
+    email VARCHAR(255) UNIQUE NOT NULL,
+    contrasena VARCHAR(255) NOT NULL,
+    FOREIGN KEY (id_rol) REFERENCES rol(id_rol)
+);
+
+-- 4. Tabla DIRECCION
+CREATE TABLE IF NOT EXISTS direccion (
+    id_direccion SERIAL PRIMARY KEY,
+    calle VARCHAR(255) NOT NULL,
+    numero INTEGER NOT NULL,
+    comuna VARCHAR(100) NOT NULL,
+    ciudad VARCHAR(100) NOT NULL,
+    region VARCHAR(100) NOT NULL
+);
+
+-- Tablas de relación muchos a muchos
+
+-- Relación Rol-Permisos
+CREATE TABLE IF NOT EXISTS rol_permisos (
+    id_rol INTEGER,
+    id_permiso INTEGER,
+    PRIMARY KEY (id_rol, id_permiso),
+    FOREIGN KEY (id_rol) REFERENCES rol(id_rol),
+    FOREIGN KEY (id_permiso) REFERENCES permisos(id_permiso)
+);
+
+-- Relación dirección-usuario
+CREATE TABLE IF NOT EXISTS dirección_usuario (
+    id_direccion INTEGER,
+    id_usuario INTEGER,
+    PRIMARY KEY (id_direccion, id_usuario),
+    FOREIGN KEY (id_direccion) REFERENCES direccion(id_direccion),
+    FOREIGN KEY (id_usuario) REFERENCES usuario(id_usuario)
+);

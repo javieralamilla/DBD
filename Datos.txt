@@ -1,0 +1,61 @@
+-- Insertar datos en tabla ROL 
+INSERT INTO rol (nombre_rol) VALUES
+('Cliente'),
+('Jefe'),
+('Administrador');
+
+-- Insertar datos en tabla PERMISOS
+INSERT INTO permisos (descripcion_permiso) VALUES
+('Gestionar usuarios'),
+('Ver productos'),
+('Crear productos'),
+('Eliminar productos'),
+('Procesar pagos'),
+('Ver reportes'),
+('Gestionar inventario'),
+('Acceder a configuración'),
+('Enviar notificaciones'),
+('Generar facturas');
+
+-- Insertar datos en tabla USUARIO
+INSERT INTO usuario (id_rol, nombre, apellido, email, contrasena) VALUES
+(1, 'Carlos', 'González', 'carlos.gonzalez@email.com', 'password123'),
+(1, 'María', 'López', 'maria.lopez@email.com', 'password123'),
+(1, 'José', 'Martínez', 'jose.martinez@email.com', 'password123'),
+(1, 'Ana', 'Rodríguez', 'ana.rodriguez@email.com', 'password123'),
+(1, 'Luis', 'Hernández', 'luis.hernandez@email.com', 'password123'),
+(1, 'Carmen', 'García', 'carmen.garcia@email.com', 'password123'),
+(1, 'Pedro', 'Sánchez', 'pedro.sanchez@email.com', 'password123'),
+(1, 'Elena', 'Muñoz', 'elena.munoz@email.com', 'password123'),
+(2, 'Miguel', 'Torres', 'miguel.torres@email.com', 'password123'),
+(3, 'Sofía', 'Jiménez', 'sofia.jimenez@email.com', 'password123');
+
+-- Insertar datos en tabla DIRECCION
+INSERT INTO direccion (calle, numero, comuna, ciudad, region) VALUES
+('Av. Providencia', 1234, 'Providencia', 'Santiago', 'Región Metropolitana'),
+('Av. Las Condes', 5678, 'Las Condes', 'Santiago', 'Región Metropolitana'),
+('Av. Vicuña Mackenna', 9012, 'Ñuñoa', 'Santiago', 'Región Metropolitana'),
+('Av. Irarrázaval', 3456, 'Ñuñoa', 'Santiago', 'Región Metropolitana'),
+('Av. Grecia', 7890, 'Peñalolén', 'Santiago', 'Región Metropolitana'),
+('Av. Tobalaba', 2345, 'La Reina', 'Santiago', 'Región Metropolitana'),
+('Av. Américo Vespucio', 6789, 'La Florida', 'Santiago', 'Región Metropolitana'),
+('Av. Santa Rosa', 1357, 'La Pintana', 'Santiago', 'Región Metropolitana'),
+('Av. Gran Avenida', 8024, 'San Miguel', 'Santiago', 'Región Metropolitana'),
+('Av. Macul', 4680, 'Macul', 'Santiago', 'Región Metropolitana');
+
+
+
+
+
+
+
+-- ROL_PERMISOS 
+INSERT INTO rol_permisos (id_rol, id_permiso) VALUES
+(1, 2), -- Cliente: Ver productos
+(2, 1), (2, 2), (2, 3), (2, 4), (2, 5), (2, 6), (2, 7), (2, 8), (2, 9), (2, 10), -- Jefe: Todos
+(3, 1), (3, 2), (3, 3), (3, 4), (3, 5), (3, 6), (3, 7), (3, 8), (3, 9), (3, 10); -- Admin: Todos
+
+
+-- DIRECCION_USUARIO
+INSERT INTO direccion_usuario (id_direccion, id_usuario) VALUES
+(1, 1), (2, 2), (3, 3), (4, 4), (5, 5), (6, 6), (7, 7), (8, 8), (9, 9), (10, 10);
