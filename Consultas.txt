@@ -1,5 +1,21 @@
 -- SENTENCIAS SQL 
 
+-- RANKING CARTAS MAS DESEADAS POR LOS CLIENTES (CONSULTA DEL ENUNCIADO)
+SELECT 
+    ROW_NUMBER() OVER (ORDER BY COUNT(lp.id_producto) DESC) AS ranking,
+    p.nombre AS carta,
+    p.precio,
+    COUNT(lp.id_producto) AS veces_deseada,
+    COUNT(DISTINCT ld.id_usuario) AS usuarios_distintos,
+    p.stock AS stock_disponible
+FROM producto p
+INNER JOIN lista_producto lp ON p.id_producto = lp.id_producto
+INNER JOIN listas_de_deseos ld ON lp.id_deseo = ld.id_deseo
+WHERE p.tipo_producto = 'Carta'
+GROUP BY p.id_producto, p.nombre, p.precio, p.stock
+ORDER BY veces_deseada DESC, usuarios_distintos DESC;
+
+--CONSULTAS DEL EXCEL:
 
 -- 1. AGREGAR UN JUEGO DE MESA AL CARRITO DE COMPRAS
 -- Ejemplo: Usuario ID 1 agrega el producto Catan (ID 3) con cantidad 2
@@ -18,6 +34,7 @@ WHERE c.id_usuario = 1
 ON CONFLICT (id_carrito, id_producto) 
 DO UPDATE SET cantidad = carrito_item.cantidad + 2;
 
+
 -- 2. AGREGAR UNA CARTA AL CARRITO DE COMPRAS
 -- Ejemplo: Usuario ID 1 agrega cartas Magic MTG (ID 1) con cantidad 3
 INSERT INTO carrito_item (id_carrito, id_producto, cantidad, precio_unitario)
@@ -33,3 +50,13 @@ WHERE c.id_usuario = 1
   AND p.id_producto = 1
 ON CONFLICT (id_carrito, id_producto) 
 DO UPDATE SET cantidad = carrito_item.cantidad + 3;
+
+
+-- 3. ELIMINAR UN JUEGO DE MESA DEL CARRITO DE COMPRAS
+-- Ejemplo: Eliminar Catan del carrito del usuario ID 1
+DELETE FROM carrito_item 
+WHERE id_carrito IN (
+    SELECT id_carrito 
+    FROM carrito 
+    WHERE id_usuario = 1 AND estado = 'activo'
+) AND id_producto = 3;
