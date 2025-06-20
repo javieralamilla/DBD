@@ -65,7 +65,7 @@ CREATE TABLE IF NOT EXISTS valoracion (
     FOREIGN KEY (id_producto) REFERENCES producto(id_producto)
 );
 
--- 9. Tabla LISTAS_DE_DESEOS
+-- 8. Tabla LISTAS_DE_DESEOS
 CREATE TABLE IF NOT EXISTS listas_de_deseos (
     id_deseo SERIAL PRIMARY KEY,
     nombres VARCHAR(100) NOT NULL,
@@ -73,7 +73,7 @@ CREATE TABLE IF NOT EXISTS listas_de_deseos (
     FOREIGN KEY (id_usuario) REFERENCES usuario(id_usuario)
 );
 
--- 10. Tabla PRODUCTO
+-- 9. Tabla PRODUCTO
 CREATE TABLE IF NOT EXISTS producto (
     id_producto SERIAL PRIMARY KEY,
     nombre VARCHAR(255) NOT NULL,
@@ -82,8 +82,9 @@ CREATE TABLE IF NOT EXISTS producto (
     stock INTEGER DEFAULT 0,
     url_imagen VARCHAR(500),
     tipo_producto VARCHAR(100) NOT NULL
+);
 
--- 11. Tabla CARRITO 
+-- 10. Tabla CARRITO 
 CREATE TABLE IF NOT EXISTS carrito (
     id_carrito SERIAL PRIMARY KEY,
     id_usuario INTEGER NOT NULL,
@@ -91,6 +92,42 @@ CREATE TABLE IF NOT EXISTS carrito (
     total_estimado DECIMAL(10,2) DEFAULT 0.00,
     FOREIGN KEY (id_usuario) REFERENCES usuario(id_usuario)
 );
+
+-- 11. Tabla CATEGORIA_MESA
+CREATE TABLE IF NOT EXISTS categoria_mesa (
+    id_mesa SERIAL PRIMARY KEY,
+    nombre VARCHAR(100) NOT NULL
+);
+
+-- 12. Tabla CATEGORIA_CARTA
+CREATE TABLE IF NOT EXISTS categoria_carta (
+    id_carta SERIAL PRIMARY KEY,
+    rareza VARCHAR(100) NOT NULL,
+    estado VARCHAR(100) NOT NULL,
+    ano VARCHAR(10) NOT NULL
+);
+
+-- 13. Tabla TIENDA
+CREATE TABLE IF NOT EXISTS tienda (
+    id_tienda SERIAL PRIMARY KEY,
+    nombre_tienda VARCHAR(255) NOT NULL,
+    telefono VARCHAR(20),
+    email VARCHAR(255),
+    id_jefe INTEGER NOT NULL,
+    id_direccion INTEGER NOT NULL,
+    FOREIGN KEY (id_jefe) REFERENCES usuario(id_usuario),
+    FOREIGN KEY (id_direccion) REFERENCES direccion(id_direccion)	
+);
+
+-- 14. Tabla BOLETA
+CREATE TABLE IF NOT EXISTS boleta (
+    id_boleta SERIAL PRIMARY KEY,
+    id_usuario INTEGER NOT NULL,
+    fecha DATE NOT NULL,
+    total DECIMAL(10,2) NOT NULL,
+    FOREIGN KEY (id_usuario) REFERENCES usuario(id_usuario)
+);
+
 
 -- Tablas de relación muchos a muchos
 
@@ -160,3 +197,21 @@ CREATE TABLE IF NOT EXISTS lista_producto (
     FOREIGN KEY (id_producto) REFERENCES producto(id_producto)
 );
 
+-- Relación tienda y producto
+CREATE TABLE IF NOT EXISTS tienda_producto (
+    id_tienda INTEGER,
+    id_producto INTEGER,
+    PRIMARY KEY (id_tienda, id_producto),
+    FOREIGN KEY (id_tienda) REFERENCES tienda(id_tienda),
+    FOREIGN KEY (id_producto) REFERENCES producto(id_producto)
+);
+-- Relación carrito y producto
+CREATE TABLE IF NOT EXISTS carrito_item (
+    id_carrito INTEGER NOT NULL,
+    id_producto INTEGER NOT NULL,
+    cantidad INTEGER NOT NULL DEFAULT 1,
+    precio_unitario DECIMAL(10,2) NOT NULL, -- Precio al momento de agregar
+    PRIMARY KEY (id_carrito, id_producto),
+    FOREIGN KEY (id_carrito) REFERENCES carrito(id_carrito) ON DELETE CASCADE,
+    FOREIGN KEY (id_producto) REFERENCES producto(id_producto)
+);

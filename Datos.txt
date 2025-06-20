@@ -82,6 +82,45 @@ INSERT INTO categoria_mesa (nombre) VALUES
 ('Area Control'),
 ('Engine Building');
 
+-- Insertar datos en tabla CATEGORIA_CARTA
+INSERT INTO categoria_carta (rareza, estado, ano) VALUES
+('Común', 'Nuevo', '2024'),
+('Poco Común', 'Nuevo', '2024'),
+('Rara', 'Nuevo', '2024'),
+('Súper Rara', 'Nuevo', '2023'),
+('Ultra Rara', 'Nuevo', '2023'),
+('Común', 'Usado', '2022'),
+('Poco Común', 'Usado', '2022'),
+('Rara', 'Usado', '2021'),
+('Mítica', 'Nuevo', '2024'),
+('Legendaria', 'Nuevo', '2023');
+
+-- Insertar datos en tabla TIENDA
+INSERT INTO tienda (nombre_tienda, telefono, email, id_jefe, id_direccion) VALUES
+('GameStore Providencia', '+56912345678', 'contacto@gamestore.cl', 9, 1),
+('TCG Center Las Condes', '+56987654321', 'info@tcgcenter.cl', 9, 2),
+('Mundo Gamer Ñuñoa', '+56911223344', 'ventas@mundogamer.cl', 9, 3),
+('Cartas y Juegos', '+56955667788', 'hola@cartasyjuegos.cl', 9, 4),
+('Epic Games Store', '+56933445566', 'contacto@epicgames.cl', 9, 5),
+('La Guarida del Dragón', '+56977889900', 'info@guaridadragon.cl', 9, 6),
+('Nexus Gaming', '+56922334455', 'ventas@nexusgaming.cl', 9, 7),
+('TCG Paradise', '+56966778899', 'contacto@tcgparadise.cl', 9, 8),
+('Juegos & Más', '+56944556677', 'info@juegosmás.cl', 9, 9),
+('TCG World', '+56911223355', 'ventas@tcgworld.cl', 9, 10);
+
+-- Insertar datos en tabla BOLETA
+INSERT INTO boleta (id_usuario, fecha, total) VALUES
+(1, '2024-06-15', 9000.00),
+(2, '2024-06-14', 9600.00),
+(3, '2024-06-13', 35000.00),
+(4, '2024-06-12', 56000.00),
+(5, '2024-06-11', 11200.00),
+(6, '2024-06-10', 25000.00),
+(7, '2024-06-09', 10500.00),
+(8, '2024-06-08', 44000.00),
+(9, '2024-06-07', 4000.00),
+(10, '2024-06-06', 45000.00);
+
 
 -- Insertar datos en tabla METODO_DE_PAGO
 INSERT INTO metodo_de_pago (id_usuario, tipo_de_pago, detalle, titular, fecha_de_vencimiento) VALUES
@@ -109,18 +148,6 @@ INSERT INTO compra (id_usuario, id_boleta, id_metodo_pago) VALUES
 (9, 9, 9),
 (10, 10, 10);
 
--- Insertar datos en tabla VALORACION
-INSERT INTO valoracion (id_usuario, id_producto, puntuacion) VALUES
-(1, 1, 5),
-(2, 2, 4),
-(3, 3, 5),
-(4, 4, 4),
-(5, 5, 3),
-(6, 6, 5),
-(7, 7, 4),
-(8, 8, 5),
-(9, 9, 4),
-(10, 10, 5);
 
 -- Insertar carritos activos para algunos usuarios
 INSERT INTO carrito (id_usuario, estado, total_estimado) VALUES
@@ -155,6 +182,32 @@ INSERT INTO carrito_item (id_carrito, id_producto, cantidad, precio_unitario) VA
 (5, 7, 2, 3500.00), -- Dragon Ball x2
 (5, 9, 1, 4000.00); -- One Piece x1
 
+-- Insertar items en carritos procesados 
+INSERT INTO carrito_item (id_carrito, id_producto, cantidad, precio_unitario) VALUES
+-- Carrito procesado de Carlos (id_carrito = 6)
+(6, 1, 2, 4500.00),
+-- Carrito procesado de María (id_carrito = 7)
+(7, 2, 3, 3200.00),
+-- Carrito procesado de José (id_carrito = 8)
+(8, 3, 1, 35000.00),
+-- Carrito procesado de Ana (id_carrito = 9)
+(9, 4, 2, 28000.00),
+-- Carrito procesado de Luis (id_carrito = 10)
+(10, 5, 4, 2800.00);
+
+-- Insertar datos en tabla VALORACION
+INSERT INTO valoracion (id_usuario, id_producto, puntuacion) VALUES
+(1, 1, 5),
+(2, 2, 4),
+(3, 3, 5),
+(4, 4, 4),
+(5, 5, 3),
+(6, 6, 5),
+(7, 7, 4),
+(8, 8, 5),
+(9, 9, 4),
+(10, 10, 5);
+
 
 
 -- ROL_PERMISOS 
@@ -163,6 +216,18 @@ INSERT INTO rol_permisos (id_rol, id_permiso) VALUES
 (2, 1), (2, 2), (2, 3), (2, 4), (2, 5), (2, 6), (2, 7), (2, 8), (2, 9), (2, 10), -- Jefe: Todos
 (3, 1), (3, 2), (3, 3), (3, 4), (3, 5), (3, 6), (3, 7), (3, 8), (3, 9), (3, 10); -- Admin: Todos
 
+-- PRODUCTO_CATEGORIA_MESA
+INSERT INTO producto_categoria_mesa (id_producto, id_mesa) VALUES
+(3, 1), (4, 2), (6, 1), (8, 2), (10, 1);
+
+-- PRODUCTO_CATEGORIA_CARTA
+INSERT INTO producto_categoria_carta (id_producto, id_carta) VALUES
+(1, 3), (2, 2), (5, 1), (7, 4), (9, 5);
+
+-- LISTA_PRODUCTO
+INSERT INTO lista_producto (id_deseo, id_producto) VALUES
+(1, 1), (1, 2), (2, 3), (2, 4), (3, 2), (3, 5), (4, 6), (4, 8), (5, 7), (5, 9),
+(6, 10), (7, 1), (7, 7), (8, 6), (8, 9), (9, 1), (9, 5), (10, 10), (10, 8);
 
 -- DIRECCION_USUARIO
 INSERT INTO direccion_usuario (id_direccion, id_usuario) VALUES
@@ -180,3 +245,7 @@ INSERT INTO compra_producto (id_compra, id_producto, cantidad, precio_unitario, 
 INSERT INTO usuario_producto (id_usuario, id_producto) VALUES
 (1, 1), (2, 2), (3, 3), (4, 4), (5, 5), (6, 6), (7, 7), (8, 8), (9, 9), (10, 10);
 
+-- TIENDA_PRODUCTO
+INSERT INTO tienda_producto (id_tienda, id_producto) VALUES
+(1, 1), (1, 2), (2, 3), (2, 4), (3, 5), (3, 6), (4, 7), (4, 8), (5, 9), (5, 10),
+(6, 1), (6, 5), (7, 2), (7, 7), (8, 3), (8, 9), (9, 4), (9, 6), (10, 8), (10, 10);
