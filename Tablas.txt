@@ -44,36 +44,7 @@ CREATE TABLE IF NOT EXISTS metodo_de_pago (
     FOREIGN KEY (id_usuario) REFERENCES usuario(id_usuario)
 );
 
--- 6. Tabla COMPRA
-CREATE TABLE IF NOT EXISTS compra (
-    id_compra SERIAL PRIMARY KEY,
-    id_usuario INTEGER NOT NULL,
-    id_boleta INTEGER,
-    id_metodo_pago INTEGER NOT NULL,
-    FOREIGN KEY (id_usuario) REFERENCES usuario(id_usuario),
-    FOREIGN KEY (id_boleta) REFERENCES boleta(id_boleta),
-    FOREIGN KEY (id_metodo_pago) REFERENCES metodo_de_pago(id_metodo_pago)
-);
-
--- 7. Tabla VALORACION
-CREATE TABLE IF NOT EXISTS valoracion (
-    id_valoracion SERIAL PRIMARY KEY,
-    id_usuario INTEGER NOT NULL,
-    id_producto INTEGER NOT NULL,
-    puntuacion INTEGER CHECK (puntuacion >= 1 AND puntuacion <= 5),
-    FOREIGN KEY (id_usuario) REFERENCES usuario(id_usuario),
-    FOREIGN KEY (id_producto) REFERENCES producto(id_producto)
-);
-
--- 8. Tabla LISTAS_DE_DESEOS
-CREATE TABLE IF NOT EXISTS listas_de_deseos (
-    id_deseo SERIAL PRIMARY KEY,
-    nombres VARCHAR(100) NOT NULL,
-    id_usuario INTEGER NOT NULL,
-    FOREIGN KEY (id_usuario) REFERENCES usuario(id_usuario)
-);
-
--- 9. Tabla PRODUCTO
+-- 6. Tabla PRODUCTO
 CREATE TABLE IF NOT EXISTS producto (
     id_producto SERIAL PRIMARY KEY,
     nombre VARCHAR(255) NOT NULL,
@@ -84,7 +55,45 @@ CREATE TABLE IF NOT EXISTS producto (
     tipo_producto VARCHAR(100) NOT NULL
 );
 
--- 10. Tabla CARRITO 
+-- 7. Tabla BOLETA
+CREATE TABLE IF NOT EXISTS boleta (
+    id_boleta SERIAL PRIMARY KEY,
+    id_usuario INTEGER NOT NULL,
+    fecha DATE NOT NULL,
+    total DECIMAL(10,2) NOT NULL,
+    FOREIGN KEY (id_usuario) REFERENCES usuario(id_usuario)
+);
+
+-- 8. Tabla COMPRA
+CREATE TABLE IF NOT EXISTS compra (
+    id_compra SERIAL PRIMARY KEY,
+    id_usuario INTEGER NOT NULL,
+    id_boleta INTEGER,
+    id_metodo_pago INTEGER NOT NULL,
+    FOREIGN KEY (id_usuario) REFERENCES usuario(id_usuario),
+    FOREIGN KEY (id_boleta) REFERENCES boleta(id_boleta),
+    FOREIGN KEY (id_metodo_pago) REFERENCES metodo_de_pago(id_metodo_pago)
+);
+
+-- 9. Tabla VALORACION
+CREATE TABLE IF NOT EXISTS valoracion (
+    id_valoracion SERIAL PRIMARY KEY,
+    id_usuario INTEGER NOT NULL,
+    id_producto INTEGER NOT NULL,
+    puntuacion INTEGER CHECK (puntuacion >= 1 AND puntuacion <= 5),
+    FOREIGN KEY (id_usuario) REFERENCES usuario(id_usuario),
+    FOREIGN KEY (id_producto) REFERENCES producto(id_producto)
+);
+
+-- 10. Tabla LISTAS_DE_DESEOS
+CREATE TABLE IF NOT EXISTS listas_de_deseos (
+    id_deseo SERIAL PRIMARY KEY,
+    nombres VARCHAR(100) NOT NULL,
+    id_usuario INTEGER NOT NULL,
+    FOREIGN KEY (id_usuario) REFERENCES usuario(id_usuario)
+);
+
+-- 11. Tabla CARRITO 
 CREATE TABLE IF NOT EXISTS carrito (
     id_carrito SERIAL PRIMARY KEY,
     id_usuario INTEGER NOT NULL,
@@ -93,13 +102,13 @@ CREATE TABLE IF NOT EXISTS carrito (
     FOREIGN KEY (id_usuario) REFERENCES usuario(id_usuario)
 );
 
--- 11. Tabla CATEGORIA_MESA
+-- 12. Tabla CATEGORIA_MESA
 CREATE TABLE IF NOT EXISTS categoria_mesa (
     id_mesa SERIAL PRIMARY KEY,
     nombre VARCHAR(100) NOT NULL
 );
 
--- 12. Tabla CATEGORIA_CARTA
+-- 13. Tabla CATEGORIA_CARTA
 CREATE TABLE IF NOT EXISTS categoria_carta (
     id_carta SERIAL PRIMARY KEY,
     rareza VARCHAR(100) NOT NULL,
@@ -107,7 +116,7 @@ CREATE TABLE IF NOT EXISTS categoria_carta (
     ano VARCHAR(10) NOT NULL
 );
 
--- 13. Tabla TIENDA
+-- 14. Tabla TIENDA
 CREATE TABLE IF NOT EXISTS tienda (
     id_tienda SERIAL PRIMARY KEY,
     nombre_tienda VARCHAR(255) NOT NULL,
@@ -117,15 +126,6 @@ CREATE TABLE IF NOT EXISTS tienda (
     id_direccion INTEGER NOT NULL,
     FOREIGN KEY (id_jefe) REFERENCES usuario(id_usuario),
     FOREIGN KEY (id_direccion) REFERENCES direccion(id_direccion)	
-);
-
--- 14. Tabla BOLETA
-CREATE TABLE IF NOT EXISTS boleta (
-    id_boleta SERIAL PRIMARY KEY,
-    id_usuario INTEGER NOT NULL,
-    fecha DATE NOT NULL,
-    total DECIMAL(10,2) NOT NULL,
-    FOREIGN KEY (id_usuario) REFERENCES usuario(id_usuario)
 );
 
 
