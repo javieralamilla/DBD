@@ -44,6 +44,44 @@ INSERT INTO direccion (calle, numero, comuna, ciudad, region) VALUES
 ('Av. Macul', 4680, 'Macul', 'Santiago', 'Región Metropolitana');
 
 
+-- Insertar datos en tabla METODO_DE_PAGO
+INSERT INTO metodo_de_pago (id_usuario, tipo_de_pago, detalle, titular, fecha_de_vencimiento) VALUES
+(1, 'Tarjeta de Crédito', 'Visa ****1234', 'Carlos González', '12/2026'),
+(2, 'Tarjeta de Débito', 'Mastercard ****5678', 'María López', '08/2025'),
+(3, 'Transferencia', 'Banco de Chile', 'José Martínez', 'N/A'),
+(4, 'Tarjeta de Crédito', 'Visa ****9012', 'Ana Rodríguez', '05/2027'),
+(5, 'Efectivo', 'Pago en efectivo', 'Luis Hernández', 'N/A'),
+(6, 'Tarjeta de Crédito', 'Mastercard ****3456', 'Carmen García', '11/2025'),
+(7, 'Tarjeta de Débito', 'Visa ****7890', 'Pedro Sánchez', '03/2026'),
+(8, 'Transferencia', 'Banco Santander', 'Elena Muñoz', 'N/A'),
+(9, 'Tarjeta de Crédito', 'Visa ****2345', 'Miguel Torres', '09/2027'),
+(10, 'Tarjeta de Débito', 'Mastercard ****6789', 'Sofía Jiménez', '07/2025');
+
+-- Insertar datos en tabla COMPRA
+INSERT INTO compra (id_usuario, id_boleta, id_metodo_pago) VALUES
+(1, 1, 1),
+(2, 2, 2),
+(3, 3, 3),
+(4, 4, 4),
+(5, 5, 5),
+(6, 6, 6),
+(7, 7, 7),
+(8, 8, 8),
+(9, 9, 9),
+(10, 10, 10);
+
+-- Insertar datos en tabla VALORACION
+INSERT INTO valoracion (id_usuario, id_producto, puntuacion) VALUES
+(1, 1, 5),
+(2, 2, 4),
+(3, 3, 5),
+(4, 4, 4),
+(5, 5, 3),
+(6, 6, 5),
+(7, 7, 4),
+(8, 8, 5),
+(9, 9, 4),
+(10, 10, 5);
 
 
 
@@ -59,3 +97,16 @@ INSERT INTO rol_permisos (id_rol, id_permiso) VALUES
 -- DIRECCION_USUARIO
 INSERT INTO direccion_usuario (id_direccion, id_usuario) VALUES
 (1, 1), (2, 2), (3, 3), (4, 4), (5, 5), (6, 6), (7, 7), (8, 8), (9, 9), (10, 10);
+
+
+-- COMPRA_PRODUCTO
+INSERT INTO compra_producto (id_compra, id_producto, cantidad, precio_unitario, subtotal) VALUES
+(1, 1, 2, 4500.00, 9000.00), (2, 2, 3, 3200.00, 9600.00), (3, 3, 1, 35000.00, 35000.00),
+(4, 4, 2, 28000.00, 56000.00), (5, 5, 4, 2800.00, 11200.00), (6, 6, 1, 25000.00, 25000.00),
+(7, 7, 3, 3500.00, 10500.00), (8, 8, 2, 22000.00, 44000.00), (9, 9, 1, 4000.00, 4000.00),
+(10, 10, 1, 45000.00, 45000.00);
+
+-- USUARIO_PRODUCTO
+INSERT INTO usuario_producto (id_usuario, id_producto) VALUES
+(1, 1), (2, 2), (3, 3), (4, 4), (5, 5), (6, 6), (7, 7), (8, 8), (9, 9), (10, 10);
+
