@@ -69,3 +69,19 @@ WHERE id_carrito IN (
     FROM carrito 
     WHERE id_usuario = 1 AND estado = 'activo'
 ) AND id_producto = 1;
+
+-- 3. MOSTRAR LOS JUEGOS DE MESA/CARTAS DEL CARRITO DE COMPRAS
+-- Para un usuario específico (ejemplo: usuario ID 1)
+SELECT 
+    ci.id_carrito,
+    p.nombre AS nombre_producto,
+    p.tipo_producto,
+    ci.precio_unitario,
+    ci.cantidad,
+    (ci.precio_unitario * ci.cantidad) AS subtotal
+FROM carrito c
+INNER JOIN carrito_item ci ON c.id_carrito = ci.id_carrito
+INNER JOIN producto p ON ci.id_producto = p.id_producto
+WHERE c.id_usuario = 1 AND c.estado = 'activo'
+ORDER BY p.tipo_producto, p.nombre;
+
