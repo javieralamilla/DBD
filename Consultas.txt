@@ -18,7 +18,7 @@ ORDER BY veces_deseada DESC, usuarios_distintos DESC;
 --CONSULTAS DEL EXCEL:
 
 -- 1. AGREGAR UN JUEGO DE MESA AL CARRITO DE COMPRAS
--- Ejemplo: Usuario ID 1 agrega el producto Catan (ID 3) con cantidad 2
+-- Ejemplo 1: Usuario ID 1 agrega el producto Catan (ID 3) con cantidad 2
 
 INSERT INTO carrito_item (id_carrito, id_producto, cantidad, precio_unitario)
 SELECT 
@@ -35,8 +35,8 @@ ON CONFLICT (id_carrito, id_producto)
 DO UPDATE SET cantidad = carrito_item.cantidad + 2;
 
 
--- . AGREGAR UNA CARTA AL CARRITO DE COMPRAS
--- Ejemplo: Usuario ID 1 agrega cartas Magic MTG (ID 1) con cantidad 3
+--  AGREGAR UNA CARTA AL CARRITO DE COMPRAS
+-- Ejemplo 2: Usuario ID 1 agrega cartas Magic MTG (ID 1) con cantidad 3
 INSERT INTO carrito_item (id_carrito, id_producto, cantidad, precio_unitario)
 SELECT 
     c.id_carrito,
@@ -53,7 +53,7 @@ DO UPDATE SET cantidad = carrito_item.cantidad + 3;
 
 
 -- 2. ELIMINAR UN JUEGO DE MESA DEL CARRITO DE COMPRAS
--- Ejemplo: Eliminar Catan del carrito del usuario ID 1
+-- Ejemplo 1 : Eliminar Catan del carrito del usuario ID 1
 DELETE FROM carrito_item 
 WHERE id_carrito IN (
     SELECT id_carrito 
@@ -62,7 +62,7 @@ WHERE id_carrito IN (
 ) AND id_producto = 3;
 
 -- ELIMINAR UNA CARTA DEL CARRITO DE COMPRAS
--- Ejemplo: Eliminar Magic MTG del carrito del usuario ID 1
+-- Ejemplo 2: Eliminar Magic MTG del carrito del usuario ID 1
 DELETE FROM carrito_item 
 WHERE id_carrito IN (
     SELECT id_carrito 
@@ -71,7 +71,7 @@ WHERE id_carrito IN (
 ) AND id_producto = 1;
 
 -- 3. MOSTRAR LOS JUEGOS DE MESA/CARTAS DEL CARRITO DE COMPRAS
--- Para un usuario específico (ejemplo: usuario ID 1)
+-- Ejemplo: Para un usuario específico (ejemplo: usuario ID 1)
 SELECT 
     ci.id_carrito,
     p.nombre AS nombre_producto,
@@ -85,3 +85,41 @@ INNER JOIN producto p ON ci.id_producto = p.id_producto
 WHERE c.id_usuario = 1 AND c.estado = 'activo'
 ORDER BY p.tipo_producto, p.nombre;
 
+-- 4. MOSTRAR EL PRECIO TOTAL A PAGAR POR EL CARRITO DE COMPRAS
+-- Ejemplo 1: Total del carrito ACTIVO del usuario id = 4
+SELECT c.id_usuario,
+       SUM(ci.cantidad * ci.precio_unitario) AS total_a_pagar
+FROM   carrito         c
+JOIN   carrito_item    ci USING (id_carrito)
+WHERE  c.id_usuario = 4
+  AND  c.estado = 'activo'
+GROUP  BY c.id_usuario;
+
+--Ejemplo 2: Total a pagar por usuario para TODOS los carritos activos
+SELECT c.id_usuario,
+       SUM(ci.cantidad * ci.precio_unitario) AS total_a_pagar
+FROM   carrito      c
+JOIN   carrito_item ci USING (id_carrito)
+WHERE  c.estado = 'activo'
+GROUP  BY c.id_usuario
+ORDER  BY c.id_usuario;
+
+--5. MOSTRAR TODOS LOS JUEGOS DE MESA Y CARTAS QUE SE VENDAN EN UNA UBICACIIN GEOGRAFICA ESPECIFICA
+-- Ejemplo 1: Juegos de mesa y carta en la COMUNA de Providencia */
+SELECT p.id_producto, p.nombre, p.tipo_producto,
+       t.nombre_tienda, d.comuna
+FROM producto               p
+JOIN tienda_producto        tp ON tp.id_producto = p.id_producto
+JOIN tienda                 t  ON t.id_tienda    = tp.id_tienda
+JOIN direccion              d  ON d.id_direccion = t.id_direccion
+WHERE p.tipo_producto IN ('Juego de Mesa','Carta')
+  AND d.comuna = 'Providencia';
+
+-- Ejemplo 2: Juegos de mesa y carta Filtro solo por la REGIÓN Metropolitana
+SELECT p.id_producto, p.nombre, t.nombre_tienda, d.region
+FROM producto p
+JOIN tienda_producto tp ON tp.id_producto = p.id_producto
+JOIN tienda          t  ON t.id_tienda    = tp.id_tienda
+JOIN direccion       d  ON d.id_direccion = t.id_direccion
+WHERE p.tipo_producto IN ('Juego de Mesa','Carta')
+  AND d.region = 'Región Metropolitana';
