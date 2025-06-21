@@ -116,10 +116,49 @@ WHERE p.tipo_producto IN ('Juego de Mesa','Carta')
   AND d.comuna = 'Providencia';
 
 -- Ejemplo 2: Juegos de mesa y carta Filtro solo por la REGIÓN Metropolitana
-SELECT p.id_producto, p.nombre, t.nombre_tienda, d.region
+SELECT p.id_producto, p.nombre, p.tipo_producto, t.nombre_tienda, d.region
 FROM producto p
 JOIN tienda_producto tp ON tp.id_producto = p.id_producto
 JOIN tienda          t  ON t.id_tienda    = tp.id_tienda
 JOIN direccion       d  ON d.id_direccion = t.id_direccion
 WHERE p.tipo_producto IN ('Juego de Mesa','Carta')
   AND d.region = 'Región Metropolitana';
+
+--6. Mostrar ranking de los productos con mas ventas
+
+-- Ejemplo 1_ Ranking global por unidades vendidas todas las fechas
+SELECT p.id_producto,
+       p.nombre,
+       SUM(cp.cantidad) AS unidades_vendidas
+FROM compra_producto cp
+JOIN producto        p ON p.id_producto = cp.id_producto
+GROUP BY p.id_producto, p.nombre
+ORDER BY unidades_vendidas DESC;
+
+-- Ejemplo 2: Top-3 por ingresos (subtotal)
+SELECT p.id_producto,
+       p.nombre,
+       SUM(cp.subtotal) AS ingresos_totales
+FROM compra_producto cp
+JOIN producto        p ON p.id_producto = cp.id_producto
+GROUP BY p.id_producto, p.nombre
+ORDER BY ingresos_totales DESC
+LIMIT 3;
+
+--7. Mostrar lista de deseos de un usuario
+
+-- Ejemplo 1: Lista de deseos del usuario id = 1
+SELECT p.id_producto, p.nombre
+FROM listas_de_deseos ld
+JOIN lista_producto  lp ON lp.id_deseo   = ld.id_deseo
+JOIN producto        p  ON p.id_producto = lp.id_producto
+WHERE ld.id_usuario = 1;
+
+-- Ejemplo 2: Lista de deseos consultando por EMAIL del usuario
+SELECT p.id_producto, p.nombre
+FROM usuario          u
+JOIN listas_de_deseos ld ON ld.id_usuario = u.id_usuario
+JOIN lista_producto   lp ON lp.id_deseo   = ld.id_deseo
+JOIN producto         p  ON p.id_producto = lp.id_producto
+WHERE u.email = 'maria.lopez@email.com';
+
