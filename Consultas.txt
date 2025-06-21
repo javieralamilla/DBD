@@ -35,7 +35,7 @@ ON CONFLICT (id_carrito, id_producto)
 DO UPDATE SET cantidad = carrito_item.cantidad + 2;
 
 
--- 2. AGREGAR UNA CARTA AL CARRITO DE COMPRAS
+-- . AGREGAR UNA CARTA AL CARRITO DE COMPRAS
 -- Ejemplo: Usuario ID 1 agrega cartas Magic MTG (ID 1) con cantidad 3
 INSERT INTO carrito_item (id_carrito, id_producto, cantidad, precio_unitario)
 SELECT 
@@ -52,7 +52,7 @@ ON CONFLICT (id_carrito, id_producto)
 DO UPDATE SET cantidad = carrito_item.cantidad + 3;
 
 
--- 3. ELIMINAR UN JUEGO DE MESA DEL CARRITO DE COMPRAS
+-- 2. ELIMINAR UN JUEGO DE MESA DEL CARRITO DE COMPRAS
 -- Ejemplo: Eliminar Catan del carrito del usuario ID 1
 DELETE FROM carrito_item 
 WHERE id_carrito IN (
@@ -60,3 +60,12 @@ WHERE id_carrito IN (
     FROM carrito 
     WHERE id_usuario = 1 AND estado = 'activo'
 ) AND id_producto = 3;
+
+-- ELIMINAR UNA CARTA DEL CARRITO DE COMPRAS
+-- Ejemplo: Eliminar Magic MTG del carrito del usuario ID 1
+DELETE FROM carrito_item 
+WHERE id_carrito IN (
+    SELECT id_carrito 
+    FROM carrito 
+    WHERE id_usuario = 1 AND estado = 'activo'
+) AND id_producto = 1;
