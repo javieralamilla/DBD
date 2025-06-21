@@ -64,7 +64,16 @@ CREATE TABLE IF NOT EXISTS boleta (
     FOREIGN KEY (id_usuario) REFERENCES usuario(id_usuario)
 );
 
--- 8. Tabla COMPRA
+-- 8. Tabla CARRITO 
+CREATE TABLE IF NOT EXISTS carrito (
+    id_carrito SERIAL PRIMARY KEY,
+    id_usuario INTEGER NOT NULL,
+    estado VARCHAR(20) DEFAULT 'activo', -- 'activo', 'procesado', 'abandonado'
+    total_estimado DECIMAL(10,2) DEFAULT 0.00,
+    FOREIGN KEY (id_usuario) REFERENCES usuario(id_usuario)
+);
+
+-- 9. Tabla COMPRA
 CREATE TABLE IF NOT EXISTS compra (
     id_compra SERIAL PRIMARY KEY,
     id_usuario INTEGER NOT NULL,
@@ -77,7 +86,7 @@ CREATE TABLE IF NOT EXISTS compra (
     FOREIGN KEY (id_carrito) REFERENCES carrito(id_carrito)
 );
 
--- 9. Tabla VALORACION
+-- 10. Tabla VALORACION
 CREATE TABLE IF NOT EXISTS valoracion (
     id_valoracion SERIAL PRIMARY KEY,
     id_usuario INTEGER NOT NULL,
@@ -87,20 +96,11 @@ CREATE TABLE IF NOT EXISTS valoracion (
     FOREIGN KEY (id_producto) REFERENCES producto(id_producto)
 );
 
--- 10. Tabla LISTAS_DE_DESEOS
+-- 11. Tabla LISTAS_DE_DESEOS
 CREATE TABLE IF NOT EXISTS listas_de_deseos (
     id_deseo SERIAL PRIMARY KEY,
     nombres VARCHAR(100) NOT NULL,
     id_usuario INTEGER NOT NULL,
-    FOREIGN KEY (id_usuario) REFERENCES usuario(id_usuario)
-);
-
--- 11. Tabla CARRITO 
-CREATE TABLE IF NOT EXISTS carrito (
-    id_carrito SERIAL PRIMARY KEY,
-    id_usuario INTEGER NOT NULL,
-    estado VARCHAR(20) DEFAULT 'activo', -- 'activo', 'procesado', 'abandonado'
-    total_estimado DECIMAL(10,2) DEFAULT 0.00,
     FOREIGN KEY (id_usuario) REFERENCES usuario(id_usuario)
 );
 
